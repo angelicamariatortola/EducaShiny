@@ -1,0 +1,19 @@
+ input[type='number'] {
+    font-size: 20px;
+    text-align: center;
+  }
+    
+/* Personaliza todos os inputs numéricos */
+.form-group > label {
+      font-size: 20px;
+      color: #003366;
+      font-weight: bold;
+      display: block;
+    }
+
+/* Altera o tamanho do texto nos botões */
+.btn {
+    font-size: 20px;
+    color: #003366;
+    /* outras propriedades gerais */
+  }

@@ -1,0 +1,46 @@
+
+/* Estilo padrão do botão */
+.btn-acao {
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: #B0E2FF;
+  color: black;
+  font-size: 20px !important; /* Tamanho da fonte */
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+}
+
+/* Estilo quando o botão está sendo clicado */
+.btn-acao:active,
+.btn-acao:focus {
+  background-color: #87CEFA !important;
+  color: black !important;
+  outline: none;
+  box-shadow: 0 0 5px #333;
+}
+
+
+/* Ajustar botão do menu caso necessário */
+.main-header .navbar .nav-item {
+  height: 100px !important;
+  display: flex;
+  align-items: center;
+}
+
+body {
+        text-align: justify;
+        font-size: 20px !important; /* Tamanho da fonte */
+    }
+
+#box_mat .box-header .box-title {font-size: 26px !important; color: #000080 !important;}
+
+/* Cores suaves para os títulos dos boxes */
+#box1 .card-header { background-color: LightSteelBlue !important; color: black !important; }
+#box2 .card-header { background-color: LightBlue !important; color: black !important; }
+#box3 .card-header { background-color: SkyBlue !important; color: black !important; }
+#box4 .card-header { background-color: PowderBlue !important; color: black !important; }
+
+
+
+     

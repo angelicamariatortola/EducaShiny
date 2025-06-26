@@ -1,0 +1,78 @@
+/* Ajustar altura do cabeçalho */
+.main-header {
+  height: 80px !important; /* Aumenta a altura do cabeçalho */
+}
+
+/* Ajustar o título do cabeçalho */
+.brand-link {
+  height: 80px !important; /* Igual à altura do cabeçalho */
+  line-height: 80px !important; /* Centraliza o texto verticalmente */
+  font-size: 24px !important; /* Aumenta o tamanho do texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ajustar elementos internos do cabeçalho */
+.navbar {
+  min-height: 80px !important; /* Ajusta altura mínima */
+}
+
+/* Ajustar botão do menu caso necessário */
+.main-header .navbar .nav-item {
+  height: 100px !important;
+  display: flex;
+  align-items: center;
+}
+
+ body {
+        text-align: justify;
+    }
+.box-title {
+  color: white !important;
+  font-weight: bold;
+}
+/* Cores suaves para os títulos dos boxes */
+#box1 .card-header { background-color: LightSteelBlue !important; color: black !important; }
+#box2 .card-header { background-color: LightBlue !important; color: black !important; }
+#box3 .card-header { background-color: SkyBlue !important; color: black !important; }
+#box4 .card-header { background-color: PowderBlue !important; color: black !important; }
+
+     
+/* Estilo para o botão "gerar" */
+#gerar {
+  background-color: #B0E2FF !important;
+  color: black !important;
+  font-size: 20px !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  width: 100% !important;
+  border: none !important;
+}
+
+/* Efeito ao clicar/focar no botão "gerar" */
+#gerar:active,
+#gerar:focus {
+  background-color: #87CEFA !important;
+  box-shadow: 0 0 8px #555;
+  outline: none;
+}
+
+/* Estilo para o botão "calcular" */
+#calcular {
+  background-color: aquamarine !important;
+  color: black !important;
+  font-size: 20px !important;
+  padding: 10px 20px !important;
+  border-radius: 10px !important;
+  width: 100% !important;
+  border: none !important;
+}
+
+/* Efeito ao clicar/focar no botão "calcular" */
+#calcular:active,
+#calcular:focus {
+  background-color: #66CDAA !important;
+  box-shadow: 0 0 8px #555;
+  outline: none;
+}

@@ -1,0 +1,12 @@
+name: FisicaLancamentos
+title: FisicaLancamentos
+username: educashiny
+account: educashiny
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13651438
+bundleId: 10520448
+url: https://educashiny.shinyapps.io/FisicaLancamentos/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
