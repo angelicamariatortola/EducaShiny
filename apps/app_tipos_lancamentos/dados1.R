@@ -1,3 +1,5 @@
+# setwd("C:/Users/Jamile Nasser/Desktop/milena/NovoApp")
+
 # seleciona o exercício e extrai dados__________________________________________
 dadosH <- read_xlsx("lancamento horizontal.xlsx")  
 

@@ -27,8 +27,8 @@ source("uis/ui_rev.R", local = TRUE)
 # Aba do lançamento horizontal
 source("uis/ui_horiz.R", local = TRUE)
 
-# # Aba do lançamento oblíquo
-# source("uis/ui_obli.R", local = TRUE)
+# Aba do lançamento oblíquo
+source("uis/ui_obli.R", local = TRUE)
 
 
 # União de todas as abas do app
@@ -51,7 +51,8 @@ ui <- dashboardPage(
   
   # Importa a fonte do Google Fonts
   tags$head(
-    tags$link(href = "https://fonts.googleapis.com/css2?family=Chewy&display=swap", rel = "stylesheet")
+    tags$link(href = "https://fonts.googleapis.com/css2?family=Chewy&display=swap",
+              rel = "stylesheet")
   ),
   
   # Define as configurações do título do painel
@@ -65,8 +66,8 @@ ui <- dashboardPage(
     tabPanel("Início 🏠", ui_home),
     tabPanel("Teste Diagnóstico ✅", ui_diag),
     tabPanel("Revisão 📖", ui_rev),
-    tabPanel("Lançamento horizontal 🎯", ui_horiz)
-    # tabPanel("Lançamento Oblíquo 🚀", ui_obli)
+    tabPanel("Lançamento horizontal 🎯", ui_horiz),
+    tabPanel("Lançamento Oblíquo 🚀", ui_obli)
       )
   )
 )
@@ -82,8 +83,8 @@ server <- function(input,output,session){
   ## Server da Aba do Lançamento Horizontal
   source("server_horiz.R", local = TRUE)
   
-  ## Server da Aba do Lançamento Obliquo
-  # source("server_obli.R", local = TRUE)
+  # Server da Aba do Lançamento Obliquo
+  source("server_obli.R", local = TRUE)
 
 }
 

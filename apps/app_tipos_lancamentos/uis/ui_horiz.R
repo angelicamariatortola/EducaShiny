@@ -1,22 +1,22 @@
 # Aba do lançamento horizontal
 ui_horiz <- fluidPage(
-  
-  h1(""),
-  tags$div(
-    style = "display: flex; align-items: center;", 
-    tags$label("Qual o tipo de exercício?", style = "margin-right: 10px; color:#003366; "),
-    selectInput("tipoH", NULL, choices = tipos, selected = "")),
-  fluidRow(
-    column(8, 
-           tags$div(
-             style = "display: flex; align-items: center; ", 
-             tags$label("Problema de:", style = "margin-right: 10px; color:#003366; "),
-             selectInput("incognitaH", NULL, choices = variaveisH, selected = ""))
-    ),
-    column(4, uiOutput("exH"))
-  ),
+
   sidebarLayout(
     mainPanel(
+      h1(""),
+      tags$div(
+        style = "display: flex; align-items: center;", 
+        tags$label("Qual o tipo de exercício?", style = "margin-right: 10px; color:#003366; "),
+        selectInput("tipoH", NULL, choices = tipos, selected = "")),
+      fluidRow(
+        column(6, 
+               tags$div(
+                 style = "display: flex; align-items: center; ", 
+                 tags$label("Problema de:", style = "margin-right: 10px; color:#003366; "),
+                 selectInput("incognitaH", NULL, choices = variaveisH, selected = ""))
+        ),
+        column(6, uiOutput("exH"))
+      ),
       h1(""),
       fluidRow(
         column(12, uiOutput("enunciadoH"))

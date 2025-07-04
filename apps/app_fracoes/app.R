@@ -1,6 +1,8 @@
-
-# rm(list = ls())
-
+# Carregar pacotes
+library(shiny)
+library(plotly)
+library(numbers)
+library(DT)
 
 #função que realiza a subtração de um vetor
 subtract_vec <- function(s){ #s é um vetor numérico
@@ -111,10 +113,10 @@ titlePanel("Operações com frações"),
 
 tabsetPanel(
 
-  tabPanel("Denominadores Iguais", ui1,
+  tabPanel("Denominadores Iguais", ui1
            ),
  
-  tabPanel("Denominadores Diferentes", ui2,
+  tabPanel("Denominadores Diferentes", ui2
   )
 )
 )
@@ -367,7 +369,7 @@ server <- function(input, output, session) {
       
     })
     plot_data_r <- data_r()
-    # print(inteiro())
+    print(inteiro())
     #cria o dataframe dos gráficos dos números inteiros caso o resultado seja fração mista
     data_r2 <- reactive({
       if(inteiro()>=1){
@@ -806,5 +808,5 @@ server <- function(input, output, session) {
     })
   })
 }
-
+#-----------------------------------------------------------------------------------------------------------------------------------
 shinyApp(ui, server)

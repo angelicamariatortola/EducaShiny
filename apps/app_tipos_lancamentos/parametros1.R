@@ -5,6 +5,7 @@ pa1<-reactive({
   }
   else if(input$sH=="velocidade e tempo"){
     tagList(
+      fluidRow(
       column(6,
              numericInput("vH", "A velocidade (m/s) é:", min = 0, 
                           max = 700,value=0),
@@ -15,10 +16,11 @@ pa1<-reactive({
                           1, 700, value=0),
              textOutput("atH")
       )
-    )
+    ))
   }
   else{
     tagList(
+      fluidRow(
       column(6,
              numericInput("vH", "A velocidade (m/s) é:", min = 0, 
                           max = 700,value=0),
@@ -29,7 +31,7 @@ pa1<-reactive({
                           1, 700, value=0),
              textOutput("aaH")
       )
-    )
+    ))
   }
 })
 
@@ -40,6 +42,7 @@ pa2<-reactive({
   }
   else if(input$sH=="velocidade e tempo"){
     tagList(
+      fluidRow(
       column(6,
              numericInput("vH", "A velocidade (m/s) é:", 
                           min = 0, max = 700,value=0),
@@ -50,10 +53,11 @@ pa2<-reactive({
                           1, 700, value=0),
              textOutput("atH")
       )
-    )
+    ))
   }
   else {
     tagList(
+      fluidRow(
       column(6,
              numericInput("vH", "A velocidade (m/s) é:", 
                           min = 0, max = 700,value=0),
@@ -64,7 +68,7 @@ pa2<-reactive({
                           1, 700, value=0),
              textOutput("alH")
       )
-    )
+    ))
   }
 })
 
@@ -74,6 +78,7 @@ output$parametrosH <- renderUI({
   }
   else if(input$incognitaH=="velocidade"){
     tagList(
+      fluidRow(
       column(6,
              numericInput("alcanceH", "O alcance (m) é:", min = 0, max = 700,
                           value=0),
@@ -84,7 +89,7 @@ output$parametrosH <- renderUI({
                           value=0),
              textOutput("aaH")
       )
-    )
+    ))
   }
   else if(input$incognitaH=="alcance"){
     pa1()

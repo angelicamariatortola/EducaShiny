@@ -78,11 +78,11 @@ l1 <- reactive({
   } else if(input$sH=="velocidade e tempo"){
     req(input$vH != 0)
     req(input$tempoH!= 0)   
-    actionButton("grafH", "🚀 Lançar!")
+    actionButton("grafH", "🚀 Lançar!", class = "btn-info")
   } else if(input$sH=="velocidade e altura"){
     req(input$vH != 0)
     req(input$alturaH!= 0)   
-    actionButton("grafH", "🚀 Lançar!")
+    actionButton("grafH", "🚀 Lançar!", class = "btn-info")
   }
 })
 
@@ -93,11 +93,11 @@ l2 <- reactive({
   } else if(input$sH=="velocidade e tempo"){
     req(input$vH != 0)
     req(input$tempoH!= 0)   
-    actionButton("grafH", "🚀 Lançar!")
+    actionButton("grafH", "🚀 Lançar!", class = "btn-info")
   } else if(input$sH=="velocidade e alcance"){
     req(input$vH != 0)
     req(input$alcanceH!= 0)   
-    actionButton("grafH", "🚀 Lançar!")
+    actionButton("grafH", "🚀 Lançar!", class = "btn-info")
   }
 })
 
@@ -111,7 +111,7 @@ output$lancarH <- renderUI({
   } else {
     req(input$alcanceH != 0)
     req(input$alturaH!= 0)   
-    actionButton("grafH", "🚀 Lançar!")
+    actionButton("grafH", "🚀 Lançar!", class = "btn-info")
   }
   
 })

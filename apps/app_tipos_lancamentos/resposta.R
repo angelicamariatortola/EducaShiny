@@ -18,6 +18,10 @@ output$r1 <- renderUI({
   HTML(feedback1())
   })
 
+observeEvent(input$incognitaH, {
+  print(resposta1())
+})
+
 feedback1 <- reactive({
   req(input$resp1)
   req(resposta1())
