@@ -77,7 +77,7 @@ output$exH <- renderUI({
   tags$div(
     style = "display: flex; align-items: center;", 
     tags$label("Exercício:", style = "margin-right: 10px; color: #003366;"),
-    selectInput("nexH", NULL, choices = seq_len(num_exH())))
+    selectInput("nexH", label = NULL, choices = seq_len(num_exH())))
 })
 
 enunciadoH <- reactive(dadosH1()[input$nexH,"enunciado"])  

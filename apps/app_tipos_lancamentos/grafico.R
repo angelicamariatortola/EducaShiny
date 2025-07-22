@@ -1,15 +1,15 @@
 gravidade <- -10
 
-t <- reactive({
-  req(!is.na(v()))
-  (v()*sin(angulo_rad()))/-gravidade})
+t_subida <- reactive({
+  req(!is.na(vel()))
+  (vel()*sin(angulo_rad()))/-gravidade})
 
 Tt <- reactive({
   if(input$altura==0){
-    (2*t())
+    (2*t_subida())
   }
   else {
-    t() + (sqrt(2*(-gravidade)*altura_maxima())/(-gravidade))
+    t_subida() + (sqrt(2*(-gravidade)*altura_maxima())/(-gravidade))
   }
 })
 
@@ -24,7 +24,8 @@ teste2<- reactive(({
   }
 }))
 
-v <- reactive({
+vel <- reactive({
+  req(input$incognita)
   if(input$incognita=="velocidade"){
   teste2()
   }
@@ -35,7 +36,7 @@ v <- reactive({
 
 tempo <- reactive({
   req(!is.na(Tt()))
-  if(v()>100){
+  if(vel()>100){
     seq(0, to = Tt(), by = 0.5)
   }
   else{
@@ -45,27 +46,28 @@ tempo <- reactive({
 
 
 altura_maxima <- reactive({
+  req(input$altura) # impede que input$altura seja NULL
   if(input$incognita=="velocidade"){
      if(input$sv =="ângulo e altura"){
       altura_max()
     } else{
       if(input$altura==0){
-        (((v())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
+        (((vel())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
       } else{
-        input$altura+(((v())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
+        input$altura+(((vel())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
       }
     }
   } else{
     if(input$altura==0){
-      (((v())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
+      (((vel())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
     } else{
-      input$altura+(((v())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
+      input$altura+(((vel())^2) * ((sin(angulo_rad()))^2)) / (2 * (-gravidade))
     }
   }
 
 })
 
-distancia_maxima <- reactive({ (((v())^2) * (sin(2 * angulo_rad()))) / (-gravidade) })
+distancia_maxima <- reactive({ (((vel())^2) * (sin(2 * angulo_rad()))) / (-gravidade) })
 
 l <- reactive({
   req(!is.na(input$sv))
@@ -114,11 +116,11 @@ observe({
 })
 
 # plota o gráfico     
-lim_x <- reactive({((v())) * (sin(pi/2)) * Tt() }) 
+lim_x <- reactive({((vel())) * (sin(pi/2)) * Tt() }) 
 
 angulo_rad <- reactive({ input$theta * pi / 180 })
-posicao_x <- reactive({ v() * cos(angulo_rad()) * tempo() })
-posicao_y <- reactive({ input$altura + (v() * sin(angulo_rad()) * tempo() + (gravidade * (tempo()^2)) / 2) })
+posicao_x <- reactive({ vel() * cos(angulo_rad()) * tempo() })
+posicao_y <- reactive({ input$altura + (vel() * sin(angulo_rad()) * tempo() + (gravidade * (tempo()^2)) / 2) })
 
 p <- reactiveValues(plot = NULL)
 
@@ -126,6 +128,29 @@ output$mov <- renderPlotly({
   p$plot
 })
 
+
+observeEvent(input$graf, {
+  v_init <- vel() 
+  angulo <- angulo_rad() 
+  escala <- 0.5 
+  
+  x_end <- v_init * cos(angulo) * escala
+  y_end <- input$altura + v_init * sin(angulo) * escala
+  
+  p$plot <- plot_ly() %>%
+    layout(
+      xaxis = list(title = "Posição Horizontal (m)", range = c(0, lim_x())),
+      yaxis = list(title = "Posição Vertical (m)", range = c(0, lim_x()))) %>%
+    add_markers(x = ~posicao_x()[1:step()],
+                y = ~posicao_y()[1:step()],
+                mode = 'markers') %>%
+    add_segments(x = 0, y = input$altura, xend = x_end, yend = y_end, 
+                 line = list(color = 'red', width = 2)) %>%
+    config(displayModeBar = F) %>%
+    layout(xaxis=list(fixedrange=TRUE)) %>%
+    layout(yaxis=list(fixedrange=TRUE)) %>%
+    layout(showlegend = FALSE)
+})
 
 observeEvent(input$theta,{
   req(!is.na(input$theta))
@@ -147,8 +172,8 @@ observeEvent(input$theta,{
 
 observeEvent(input$altura,{
   req(!is.na(input$altura))
-  req(!is.na(v()))
-    v_init <- v() 
+  req(!is.na(vel()))
+    v_init <- vel() 
     angulo <- angulo_rad() 
     escala <- 0.5 
     
@@ -185,30 +210,8 @@ observeEvent(input$altura,{
     }
 })
 
-observeEvent(input$graf, {
-  v_init <- v() 
-  angulo <- angulo_rad() 
-  escala <- 0.5 
-  
-  x_end <- v_init * cos(angulo) * escala
-  y_end <- input$altura + v_init * sin(angulo) * escala
-  
-  p$plot <- plot_ly() %>%
-    layout(
-      xaxis = list(title = "Posição Horizontal (m)", range = c(0, lim_x())),
-      yaxis = list(title = "Posição Vertical (m)", range = c(0, lim_x()))) %>%
-    add_markers(x = ~posicao_x()[1:step()],
-                y = ~posicao_y()[1:step()],
-                mode = 'markers') %>%
-    add_segments(x = 0, y = input$altura, xend = x_end, yend = y_end, 
-                 line = list(color = 'red', width = 2)) %>%
-    config(displayModeBar = F) %>%
-    layout(xaxis=list(fixedrange=TRUE)) %>%
-    layout(yaxis=list(fixedrange=TRUE)) %>%
-    layout(showlegend = FALSE)
-})
 
-
-observeEvent(c(input$nex,input$incognita,input$sv), {
+observeEvent(c(input$nex,input$incognita,input$sv, 
+               input$v,input$altura,input$alt,input$s,input$theta), {
   p$plot <- NULL
 })

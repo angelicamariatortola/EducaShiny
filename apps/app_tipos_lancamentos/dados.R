@@ -19,7 +19,13 @@ dados1 <- reactive({
 output$Seg <- renderUI({
   if(input$incognita=="velocidade"){
     tagList(
-      selectInput("sv","Quais variáveis usará no cálculo?", choices = sv0),
+      tags$div(
+        style = "display: flex; align-items: center;", 
+        tags$label("Quais variáveis usará no cálculo?", 
+                   style = "margin-right: 10px; color: #003366;
+      "),
+        selectInput("sv", NULL, choices = sv0, selected = "")  
+      ),
       textOutput("aseg")
   )}
 })
@@ -50,8 +56,13 @@ num_ex <- reactive({
 
 output$ex <- renderUI({
   req(input$tipo=="fechado")
-  selectInput("nex","exercício:", choices = seq_len(num_ex()))
+  tags$div(
+    style = "display: flex; align-items: center;", 
+    tags$label("Exercício:", style = "margin-right: 10px; color: #003366;"),
+    selectInput("nex", NULL, choices = seq_len(num_ex()))
+  )
 })
+
 
 enunciado <- reactive(dados1()[input$nex,"enunciado"])  
 pergunta <- reactive(dados1()[input$nex,"pergunta"])
@@ -66,7 +77,7 @@ output$enunciado <- renderUI({
   if(input$tipo=="aberto"){
     
   }
-  else if(input$tipo=="fechado"){
-    p(enunciado(),style = "text-align: justify;")
+  else if(input$tipoH=="fechado"){
+    p(enunciado(),style = "text-align: justify; font-size: 20px;")
   }
 })

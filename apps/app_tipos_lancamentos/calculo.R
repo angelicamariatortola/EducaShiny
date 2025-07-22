@@ -1,30 +1,28 @@
+# Se problema de velocidade
 bb <- reactive({
-  req(!is.na(input$sv))
+  req(!is.null(input$sv) && !is.na(input$sv) && input$sv != 0) # verificando condições para velocidade
+  req(!is.null(input$theta) && !is.na(input$theta) && input$theta != 0) # condições angulo
   if(input$sv==""){
     
   } else if(input$sv=="ângulo e altura"){
-    req(input$theta != 0)
-    req(input$alt!= 0)   
+    req(!is.null(input$alt) && !is.na(input$alt) && input$alt != 0) # condições altura
     actionButton("cal", "🔎 Conferir Cálculo")
   } else if(input$sv=="ângulo e alcance"){
-    req(input$theta != 0)
-    req(input$s!= 0)   
+    req(!is.null(input$s) && !is.na(input$s) && input$s != 0) # condições alcance
     actionButton("cal", "🔎 Conferir Cálculo")
   }
 })
 
 output$b2 <- renderUI({
-  req(input$password == "0987")
-  if(input$incognita==""){
-    
-  } else if(input$incognita=="velocidade"){
+  req(input$conferir1Ob)
+  if (!is.null(input$incognita) && input$incognita == ""){
+  } else if(input$incognita=="velocidade"){ # problema de velocidade
     bb()
-  } else {
+  } else { # demais problemas
     req(input$theta != 0)
-    req(input$v!= 0)   
+    req(input$v!= 0)
     actionButton("cal", "🔎 Conferir Cálculo")
   }
-  
 })
 
 s <- reactiveValues(solução=NULL)
@@ -35,7 +33,7 @@ observeEvent(input$cal,{
   s1$solu <- s1$solu+1
 })
 
-observeEvent(c(input$nex,input$incognita,input$tipo,input$sv),{
+observeEvent(c(input$nex,input$incognita,input$tipo,input$resp1Ob),{
   s1$solu <- 0
   s$solução<- NULL
 })
@@ -47,7 +45,7 @@ observeEvent(input$cal,{
   }
   else{
     s$solução <- isolate(
-      if(input$incognita == "altura máxima") {
+      if(input$incognita == "altura máxima") { # se problema de altura máxima
         if(input$altura == 0){
           tagList(
             p(withMathJax(sprintf("$$H = \\frac{%g^2 \\times sen(%g°)^2}{2(%g)}$$",
@@ -70,7 +68,7 @@ observeEvent(input$cal,{
                                   -gravidade*2
             ))),
             p(withMathJax(sprintf("$$H = %g m$$",
-                                  altura_maxima()
+                                  altura_maxima() # resposta correta final
             )))
           )
         }
@@ -109,7 +107,7 @@ observeEvent(input$cal,{
           )
         }
       }   
-      else if(input$incognita == "alcance") {
+      else if(input$incognita == "alcance") { # se problema de alcance
         tagList(
           p(withMathJax(sprintf("$$s = \\frac{%g^2 \\times sen(2(%g°))}{%g}$$",
                                 input$v,
@@ -131,10 +129,10 @@ observeEvent(input$cal,{
                                 -gravidade
           ))),
           p(withMathJax(sprintf("$$s = %g m$$",
-                                distancia_maxima()
+                                distancia_maxima() # resposta correta final
           )))
         )}
-      else if(input$incognita == "tempo total") {
+      else if(input$incognita == "tempo total") { # se problema de tempo total
         if(input$altura==0){
           tagList(
             p(withMathJax(sprintf("$$t_{T} = \\frac{2(%g) \\times sen(%g°)}{%g}$$",
@@ -152,7 +150,7 @@ observeEvent(input$cal,{
                                   -gravidade
             ))),
             p(withMathJax(sprintf("$$t_{T} = %g s$$",
-                                  Tt()
+                                  Tt() # resposta correta final se altura = 0
             )))
           )
         }
@@ -187,13 +185,13 @@ observeEvent(input$cal,{
                                   -gravidade
             ))),
             p(withMathJax(sprintf("$$t_{T} = %g s$$",
-                                  Tt()
+                                  Tt() # resposta correta final se altura != 0
             )))
           )
         }
       }
-      else if(input$incognita == "velocidade") {
-        if (input$sv == "ângulo e altura"){
+      else if(input$incognita == "velocidade") { # se problema de velocidade
+        if (input$sv == "ângulo e altura"){ # com estas variáveis
           if(input$altura==0){
             tagList(
               p(withMathJax(sprintf("$$v_{0} = \\sqrt{\\dfrac{{%g \\times 2\\times %g}}{\\sin(%g)^{2}}}$$",
@@ -214,11 +212,11 @@ observeEvent(input$cal,{
                                     (altura_maxima() * (-gravidade * 2)) / sin(angulo_rad())^2
               ))),
               p(withMathJax(sprintf("$$v_{0} = %g \\dfrac{m}{s}$$",
-                                    v()
+                                    v() # resposta correta final se altura = 0
               )))
             )
           }
-          else{
+          else{ 
             tagList(
               p(withMathJax(sprintf("$$v_{0} = \\dfrac{\\sqrt{(%g-%g) \\times 2\\times %g}}{\\sin(%g)^{2}}$$",
                                     altura_maxima(),
@@ -239,12 +237,12 @@ observeEvent(input$cal,{
                                     ((altura_maxima()-altura_i()) * (-gravidade * 2)) / sin(angulo_rad())^2
               ))),
               p(withMathJax(sprintf("$$v_{0} = %g \\dfrac{m}{s}$$",
-                                    v()
+                                    v() # resposta correta final se altura != 0
               )))
             )
           }
         }
-        else if(input$sv=="ângulo e alcance"){
+        else if(input$sv=="ângulo e alcance"){ # considerando estas outras variáveis
           tagList(
             p(withMathJax(sprintf("$$v_{0}=\\sqrt{\\dfrac{%g \\times %g}{\\sin(2\\times %g°)}}$$",
                                   input$s,
@@ -263,7 +261,7 @@ observeEvent(input$cal,{
                                   (input$s * (-gravidade)) / sin(2 * angulo_rad())
             ))),
             p(withMathJax(sprintf("$$v_{0}= %g \\dfrac{m}{s}$$",
-                                  v()
+                                  v() # resposta correta final 
             )))
           )
         }

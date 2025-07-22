@@ -1,4 +1,4 @@
-output$b1 <- renderUI({
+output$b <- renderUI({
 
   if(input$incognita==""){
     

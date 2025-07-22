@@ -6,6 +6,7 @@ library(bs4Dash)    # Para tabelas interativas
 library(plotly)
 library(readxl)
 library(dplyr)
+library(shinyjs)
 # library(rsconnect)
 
 variaveis <- c("","altura máxima", "alcance", "tempo total","velocidade")

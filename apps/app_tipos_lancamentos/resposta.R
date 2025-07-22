@@ -1,89 +1,80 @@
 
-resposta1 <- reactive ({
-  if(input$incognitaH == "altura") {
-    round(atH(), digits = 1)
+## Respostas do lançamento Obliquo
+## Valores das respostas corretas
+resposta1_ob <- reactive ({
+  if(input$incognita == "altura máxima") {
+    round(altura_maxima(), digits = 1)
   }
-  else if(input$incognitaH == "alcance") {
-    round(alH(), digits = 1)
+  else if(input$incognita == "alcance") {
+    round(distancia_maxima(), digits = 1)
   }
-  else if(input$incognitaH == "velocidade") {
-    round(v1(), digits = 1)
-  } 
+  else if(input$incognita == "tempo total") {
+    round(Tt(), digits = 1)
+  }
+  else if(input$incognita == "velocidade") {
+    round(v(), digits = 1)
+  }
 })
 
-v1 <- reactive(input$alcanceH / sqrt(input$alturaH*2 / -gravidade))
-
-output$r1 <- renderUI({
-  req(input$conferir1)
-  HTML(feedback1())
-  })
-
-observeEvent(input$incognitaH, {
-  print(resposta1())
+## Após clicar no botão ele retorna o feedback
+output$r1Ob <- renderUI({
+  req(input$conferir1Ob)
+  HTML(feedback1_ob())
 })
 
-feedback1 <- reactive({
-  req(input$resp1)
-  req(resposta1())
-  if(input$resp1==resposta1()){
-    return(paste("<span style='color:green;'>", "Parabéns! Continue assim.😊")) 
+## Feedback que confere a resposta do estudante (resp1Ob) com a resposta correta (resposta1)
+feedback1_ob <- reactive({
+  req(input$resp1Ob)
+  req(resposta1_ob())
+  if(input$resp1Ob==resposta1_ob()){
+    return(paste("<span style='color:green;'>", "Parabéns! Continue assim.😊"))
   }
   else{
     return(paste("<span style='color:red;'>",
-                 "Continue praticando! Revise a teoria na aba de Revisão e tente novamente.🌟")) 
+                 "Continue praticando! Revise a teoria na aba de Revisão e tente novamente.🌟"))
   }
 })
 
-output$conf1 <- renderUI({
-  req(input$resp1)
-  actionButton("conferir1", "📌 Conferir Resposta")
+## Botão de Conferir
+output$conf1Ob <- renderUI({
+  req(input$resp1Ob)
+  tags$div(
+    br(),
+    actionButton("conferir1Ob", "📌 Conferir Resposta"))
 })
 
-a1 <- reactive({
-  req(!is.na(input$sH))
-  if(input$sH==""){
+
+## Criando os inputs numericos para a resposta, levando em conta as exigencias de cada exercicio
+# Se for problema de velocidade
+a1v <- reactive({
+  req(!is.na(input$sv))
+  if(input$sv==""){
     
-  } else if(input$sH=="velocidade e tempo"){
-    req(input$vH != 0)
-    req(input$tempoH!= 0)   
-    numericInput("resp1", label = "Resposta:", value = NULL, width = "100%")
-  } else if(input$sH=="velocidade e altura"){
-    req(input$vH != 0)
-    req(input$alturaH!= 0)   
-    numericInput("resp1", label = "Resposta:", value = NULL, width = "100%")
+  } else if(input$sv=="ângulo e alcance"){
+    req(input$theta != 0); req(input$s!= 0)
+    # para mostrar o campo "Resposta", exige que angulo e alcance sejam diferentes de zero
+    numericInput("resp1Ob", label = "Resposta:", value = NULL, width = "100%")
+  } else if(input$sv=="ângulo e altura"){
+    req(input$theta != 0); req(input$alt!= 0)
+    # para mostrar o campo "Resposta", exige que angulo e altura maxima sejam diferentes de zero
+    numericInput("resp1Ob", label = "Resposta:", value = NULL, width = "100%")
   }
 })
 
-a2 <- reactive({
-  req(!is.na(input$sH))
-  if(input$sH==""){
+output$respostaOb <- renderUI({
+  if(input$incognita==""){
     
-  } else if(input$sH=="velocidade e tempo"){
-    req(input$vH != 0)
-    req(input$tempoH!= 0)   
-    numericInput("resp1", label = "Resposta:", value = NULL, width = "100%")
-  } else if(input$sH=="velocidade e alcance"){
-    req(input$vH != 0)
-    req(input$alcanceH!= 0)   
-    numericInput("resp1", label = "Resposta:", value = NULL, width = "100%")
-  }
-})
-
-output$resposta <- renderUI({
-  if(input$incognitaH==""){
-    
-  } else if(input$incognitaH=="alcance"){
-    a1()
-  } else if(input$incognitaH=="altura"){
-    a2()
-  } else {
-    req(input$alcanceH != 0)
-    req(input$alturaH!= 0)   
-    numericInput("resp1", label = "Resposta:", value = NULL, width = "80%")
+  } else if(input$incognita=="velocidade"){ # se problema de velocidade
+    a1v()
+  } else { # se problema de altura maxima, altura ou tempo total:
+    req(input$theta != 0); req(input$v!= 0)
+    # para mostrar o campo "Resposta", 
+    # exige que angulo e velocidade sejam diferentes de zero (para calcular a formula)
+    numericInput("resp1Ob", label = "Resposta:", value = NULL, width = "80%")
   }
   
 })
 
-observeEvent(c(input$nexH,input$incognitaH,input$tipoH),{
-  updateNumericInput(session, "resp1", value = NULL)
+observeEvent(c(input$nex,input$incognita,input$tipo),{
+  updateNumericInput(session, "resp1Ob", value = NULL)
 })

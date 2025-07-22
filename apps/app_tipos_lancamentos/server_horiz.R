@@ -14,4 +14,4 @@ source('grafico1.R',local=TRUE, encoding = "UTF-8")
 source('dados1.R',local=TRUE, encoding = "UTF-8")
 
 #Respostas
-source('resposta.R',local=TRUE, encoding = "UTF-8")
+source('resposta1.R',local=TRUE, encoding = "UTF-8")

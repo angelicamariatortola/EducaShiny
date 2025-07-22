@@ -1,77 +1,79 @@
+## Problema de Velocidade
+# sv -> Quais variáveis usará no cálculo?
 teste<- reactive({
   req(!is.na(input$sv))
-  if(input$sv==""){
-    
-  }
-  else if(input$sv=="ângulo e alcance"){
+  if(input$sv=="ângulo e alcance"){
     tagList(
-      column(4,
-             numericInput("theta", "O ângulo do lançamento é:", 1, 89, value=0),
-             textOutput("at")
-      ),
-      column(4,
-             numericInput("s", "O alcance (m) é:", min = 0, max = 100,value=0),
-             textOutput("as")
-      ),
-      column(4,
-             numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
-             textOutput("alt")
+      fluidRow(
+        column(4,
+               numericInput("theta", "O ângulo é:", 1, 89, value=0),
+               textOutput("at")
+        ),
+        column(4,
+               numericInput("s", "O alcance (m) é:", min = 0, max = 100,value=0),
+               textOutput("as")
+        ),
+        column(4,
+               numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
+               textOutput("alt")
+        )
       )
-    )
-  }
+)}
   else if(input$sv=="ângulo e altura"){
     tagList(
-      column(4,
-             numericInput("theta", "O ângulo do lançamento é:", 1, 89, value=0),
-             textOutput("at")
-      ),
-      column(4,
-             numericInput("alt", "A altura máxima (m) é:", min = 0, max = 100,value=0),
-             textOutput("aa")
-      ),
-      column(4,
-             numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
-             textOutput("alt")
+      fluidRow(
+        column(4,
+               numericInput("theta", "O ângulo é:", 1, 89, value=0),
+               textOutput("at")
+        ),
+        column(4,
+               numericInput("alt", "A altura máxima (m) é:", min = 0, max = 100,value=0),
+               textOutput("aa")
+        ),
+        column(4,
+               numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
+               textOutput("alt")
+        ),
       )
-    )
-  }
+    )}
 })
 
 output$parametros <- renderUI({
   if(input$incognita == ""){
     
   }
-  else if(input$incognita == "velocidade"){
-  teste()
-
-   }
-  else{
+  else if(input$incognita == "velocidade"){ # se problema de velocidade
+    teste()
+    
+  }
+  else{  # se problema de altura maxima, altura ou tempo total:
     tagList(
       fluidRow(
-      column(4,
-             numericInput("theta", "O ângulo do lançamento é:", 1, 89,value=0),
-             textOutput("at")
-      ),
-      column(4,
-             numericInput("v", "A velocidade (m/s) é:", min = 0, max = 100,value=0),
-             textOutput("av")
-      ),
-      column(4,
-             numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
-             textOutput("alt")
+        column(4,
+               numericInput("theta", "O ângulo é:", 1, 89,value=0),
+               textOutput("at")
+        ),
+        column(4,
+               numericInput("v", "A velocidade (m/s) é:", min = 0, max = 100,value=0),
+               textOutput("av")
+        ),
+        column(4,
+               numericInput("altura", "A altura inicial (m) é:", 1, 100, value=0),
+               textOutput("alt")
+        )
       )
-    ))}
+    )}
 })
+
 
 #Preenche os parâmetros quando necessário
 
 output$mostrar <- renderUI({
   if(input$tipo=="aberto"){
-    
   }
   else if(input$tipo=="fechado"){
     req(input$nex)
-    actionButton("mos", "Preencher dados")
+    actionButton("mos", "📌 Preencher dados")
   }
 })
 
@@ -83,7 +85,7 @@ observeEvent(input$mos,{
   updateNumericInput(inputId = "v", value = velocidade())
 })
 
-observeEvent(c(input$tipo,input$nex),{
+observeEvent(c(input$nex, input$tipo),{
   updateNumericInput(inputId = "theta", value = 0)
   updateNumericInput(inputId = "s", value = 0)
   updateNumericInput(inputId = "altura", value = 0)

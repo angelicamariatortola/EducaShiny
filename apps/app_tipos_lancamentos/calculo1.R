@@ -1,3 +1,4 @@
+# Se problema de alcance
 bb1 <- reactive({
   req(!is.null(input$sH) && !is.na(input$sH) && input$sH != 0)
   req(!is.null(input$vH) && !is.na(input$vH) && input$vH != 0)
@@ -12,7 +13,8 @@ bb1 <- reactive({
   }
 })
 
-bb2 <- reactive({
+# Se problema de altura
+bb2 <- reactive({ 
   req(!is.null(input$sH) && !is.na(input$sH) && input$sH != 0)
   req(!is.null(input$vH) && !is.na(input$vH) && input$vH != 0)
   if(input$sH==""){
@@ -30,11 +32,11 @@ output$b2H <- renderUI({
   req(input$conferir1)
   if (!is.null(input$incognitaH) && input$incognitaH == ""){
     
-  } else if(input$incognitaH=="alcance"){
+  } else if(input$incognitaH=="alcance"){ # se problema de alcance
     bb1()
-  } else if(input$incognitaH=="altura"){
+  } else if(input$incognitaH=="altura"){ # se problema de altura
     bb2()
-  } else {
+  } else { # se problema de velocidade
     req(input$alcanceH != 0)
     req(input$alturaH!= 0)   
     actionButton("calH", "🔎 Conferir Cálculo")
@@ -54,15 +56,15 @@ observeEvent(c(input$nexH,input$incognitaH,input$tipoH,input$resp1),{
   sH$soluçãoH<- NULL
 })
 
-
+## Definindo as soluções
 observeEvent(input$calH,{
-  if(s1H$soluH %% 2 == 0){
+  if(s1H$soluH %% 2 == 0){ # para mostrar em cliques pares
     sH$soluçãoH <- NULL
   }
   else{
     sH$soluçãoH <- isolate(
-      if(input$incognitaH == "altura") {
-        if(input$sH == "velocidade e tempo"){
+      if(input$incognitaH == "altura") { # se problema de altura
+        if(input$sH == "velocidade e tempo"){ # com estas opções de variáveis
           tagList(
             p(withMathJax(sprintf("$$y = \\frac{%g \\times %g^2 }{2}$$",
                                   -gravidade,
@@ -76,11 +78,11 @@ observeEvent(input$calH,{
                                   input$tempoH^2*(-gravidade)
             ))),
             p(withMathJax(sprintf("$$y = %g m$$",
-                                  atH()
+                                  atH() # resposta correta final
             )))
           )
         } 
-        else {
+        else { # se opções de velocidade e alcance
           tagList(
             p(withMathJax(sprintf("$$t =\\frac{%g}{%g}$$",
                                   input$alcanceH,
@@ -102,23 +104,23 @@ observeEvent(input$calH,{
                                   tH()^2*(-gravidade)
             ))),
             p(withMathJax(sprintf("$$y = %g m$$",
-                                  atH()
+                                  atH() # resposta correta final
             )))
           )}
       }
-      else if(input$incognitaH == "alcance") {
-        if(input$sH == "velocidade e tempo"){
+      else if(input$incognitaH == "alcance") { # se problema de alcance
+        if(input$sH == "velocidade e tempo"){ # com estas opções de variáveis
           tagList(
             p(withMathJax(sprintf("$$x = %g \\times %g$$",
                                   input$vH,
                                   input$tempoH
             ))),
             p(withMathJax(sprintf("$$x = %g m$$",
-                                  alH()
+                                  alH()  # resposta correta final
             )))
           )
         } 
-        else {
+        else { # se opções de velocidade e altura
           tagList(
             p(withMathJax(sprintf("$$t = \\sqrt{\\dfrac{2 \\times %g}{%g}}$$",
                                   input$alturaH,
@@ -140,11 +142,11 @@ observeEvent(input$calH,{
                                   tH()
             ))),
             p(withMathJax(sprintf("$$x = %g m$$",
-                                  alH()
+                                  alH() # resposta correta final
             )))
           )}
       }
-      else if(input$incognitaH == "velocidade") {
+      else if(input$incognitaH == "velocidade") { # se problema de velocidade
         tagList(
           p(withMathJax(sprintf("$$t = \\sqrt{\\dfrac{2 \\times %g}{%g}}$$",
                                 input$alturaH,
@@ -166,7 +168,8 @@ observeEvent(input$calH,{
                                 sqrt(input$alturaH*2 / -gravidade)
           ))),
           p(withMathJax(sprintf("$$v = %g m/s$$",
-                                input$alcanceH / sqrt(input$alturaH*2 / -gravidade)
+                                input$alcanceH / sqrt(input$alturaH*2 / -gravidade) # esse é o v1 no arquivo resposta.R
+                                # resposta correta final
           )))
         )}
     )

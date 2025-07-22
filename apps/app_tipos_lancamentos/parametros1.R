@@ -1,3 +1,7 @@
+
+
+## A seguir são criados os campos para inputs para o usuário em cada caso de "Problema de"
+# pa1 -> se Problema de Alcance
 pa1<-reactive({
   req(!is.na(input$sH))
   if(input$sH==""){
@@ -35,6 +39,7 @@ pa1<-reactive({
   }
 })
 
+# pa2 -> se Problema de Altura
 pa2<-reactive({
   req(!is.na(input$sH))
   if(input$sH==""){
@@ -72,11 +77,12 @@ pa2<-reactive({
   }
 })
 
+# parametrosH -> campos dos inputs numericos considerando todos os casos de "Problema de"
 output$parametrosH <- renderUI({
   if(input$incognitaH == ""){
     
   }
-  else if(input$incognitaH=="velocidade"){
+  else if(input$incognitaH=="velocidade"){ # Se problema de velocidade
     tagList(
       fluidRow(
       column(6,
@@ -91,15 +97,15 @@ output$parametrosH <- renderUI({
       )
     ))
   }
-  else if(input$incognitaH=="alcance"){
+  else if(input$incognitaH=="alcance"){ # Se problema de alcance -> usa pa1
     pa1()
   }
-  else if(input$incognitaH=="altura"){
+  else if(input$incognitaH=="altura"){ # Se problema de altura -> usa pa2
     pa2()
   }
 })
 
-#Preenche os parâmetros quando necessário
+## Preenche os parâmetros quando necessário
 output$mostrarH <- renderUI({
   if(input$tipoH=="aberto"){
     
@@ -107,6 +113,7 @@ output$mostrarH <- renderUI({
   else if(input$tipoH=="fechado"){
     if(input$incognitaH == "velocidade"){
       req(input$nexH)
+      
       actionButton("mosH", "📌 Preencher dados")
     }
     else{
